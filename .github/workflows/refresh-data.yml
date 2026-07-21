@@ -42,6 +42,7 @@ jobs:
           python -m playwright install --with-deps chromium
 
       - name: Create Google service account credentials file
+        if: ${{ github.event.inputs.skip_sheets != '1' }}
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
