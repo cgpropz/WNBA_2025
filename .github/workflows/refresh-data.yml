@@ -5,6 +5,11 @@ permissions:
 
 on:
   workflow_dispatch:
+    inputs:
+      skip_sheets:
+        description: 'Set to 1 to skip Google Sheets upload'
+        required: false
+        default: '0'
   schedule:
     - cron: "0 */3 * * *"
 
@@ -49,7 +54,9 @@ jobs:
       - name: Run data refresh
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-          PYTHONUNBUFFERED: "1"
+          PYTHONUNBUFFERED: '1'
+          SCRAPER_PREFERRED: 'playwright'
+          SKIP_SHEETS: ${{ github.event.inputs.skip_sheets }}
         run: |
           python update_all_data.py --core-only
 
