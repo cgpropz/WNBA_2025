@@ -59,7 +59,12 @@ jobs:
           PYTHONUNBUFFERED: '1'
           SCRAPER_PREFERRED: 'playwright'
           SKIP_SHEETS: ${{ github.event.inputs.skip_sheets }}
+        working-directory: ${{ github.workspace }}
         run: |
+          echo "PWD: $(pwd)"
+          echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
+          ls -la "$GITHUB_WORKSPACE" || true
+          ls -la . || true
           python "$GITHUB_WORKSPACE/update_all_data.py" --core-only
 
       - name: Commit refreshed data
