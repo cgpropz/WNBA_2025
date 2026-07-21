@@ -65,7 +65,12 @@ jobs:
           echo "GITHUB_WORKSPACE=$GITHUB_WORKSPACE"
           ls -la "$GITHUB_WORKSPACE" || true
           ls -la . || true
-          python "$GITHUB_WORKSPACE/update_all_data.py" --core-only
+          if [ "${{ github.event.inputs.skip_sheets }}" = "1" ]; then
+            echo 'skip_sheets=1 — running gamelog.py only'
+            python "$GITHUB_WORKSPACE/gamelog.py"
+          else
+            python "$GITHUB_WORKSPACE/update_all_data.py" --core-only
+          fi
 
       - name: Commit refreshed data
         if: success()
