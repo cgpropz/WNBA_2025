@@ -66,7 +66,18 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add wnba_boxscores_2025_2026.csv WNBA_Gamelog_Data.csv last_data_refresh.json wnba_bio_2025.csv wnba_guard_dvp.csv wnba_forward_dvp.csv wnba_center_dvp.csv
+          for file in \
+            wnba_boxscores_2025_2026.csv \
+            WNBA_Gamelog_Data.csv \
+            last_data_refresh.json \
+            wnba_bio_2025.csv \
+            wnba_guard_dvp.csv \
+            wnba_forward_dvp.csv \
+            wnba_center_dvp.csv; do
+            if [ -f "$file" ]; then
+              git add "$file"
+            fi
+          done
           if git diff --cached --quiet; then
             echo 'No data changes to commit.'
           else
