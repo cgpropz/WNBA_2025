@@ -60,7 +60,7 @@ jobs:
           SCRAPER_PREFERRED: 'playwright'
           SKIP_SHEETS: ${{ github.event.inputs.skip_sheets }}
         run: |
-          python update_all_data.py --core-only
+          python "$GITHUB_WORKSPACE/update_all_data.py" --core-only
 
       - name: Commit refreshed data
         if: success()
