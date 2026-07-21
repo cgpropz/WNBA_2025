@@ -1,0 +1,67 @@
+name: Refresh WNBA data
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 */3 * * *"
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system dependencies for Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium chromium-driver
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Create Google service account credentials file
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+        run: |
+          if [ -n "$GOOGLE_SERVICE_ACCOUNT_JSON" ]; then
+            printf '%s' "$GOOGLE_SERVICE_ACCOUNT_JSON" > Credentials2.json
+          else
+            echo 'GOOGLE_SERVICE_ACCOUNT_JSON secret is not configured' >&2
+            exit 1
+          fi
+
+      - name: Run data refresh
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python update_all_data.py --core-only
+
+      - name: Commit refreshed data
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add wnba_boxscores_2025_2026.csv WNBA_Gamelog_Data.csv last_data_refresh.json wnba_bio_2025.csv wnba_guard_dvp.csv wnba_forward_dvp.csv wnba_center_dvp.csv
+          if git diff --cached --quiet; then
+            echo 'No data changes to commit.'
+          else
+            git commit -m "chore: refresh WNBA data"
+            git push
+          fi
