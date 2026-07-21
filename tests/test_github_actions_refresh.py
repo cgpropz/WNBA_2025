@@ -12,6 +12,8 @@ def test_refresh_workflow_exists_and_runs_on_schedule():
     assert 'workflow_dispatch' in workflow_text
     assert 'schedule' in workflow_text
     assert 'update_all_data.py' in workflow_text
+    assert "SCRAPER_PREFERRED: 'api'" in workflow_text
+    assert 'python -m playwright install' not in workflow_text
 
 
 def test_gamelog_can_use_github_secret_credentials():
@@ -19,3 +21,9 @@ def test_gamelog_can_use_github_secret_credentials():
     gamelog_text = gamelog_path.read_text(encoding='utf-8')
     assert 'GOOGLE_SERVICE_ACCOUNT_JSON' in gamelog_text
     assert 'Credentials2.json' in gamelog_text
+
+
+def test_gamelog_has_wnba_api_loader():
+    gamelog_text = (ROOT / 'gamelog.py').read_text(encoding='utf-8')
+    assert 'site.api.espn.com/apis/site/v2/sports/basketball/wnba' in gamelog_text
+    assert 'def fetch_with_wnba_api(season):' in gamelog_text
