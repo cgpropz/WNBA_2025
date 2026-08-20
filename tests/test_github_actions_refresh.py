@@ -16,6 +16,16 @@ def test_refresh_workflow_exists_and_runs_on_schedule():
     assert 'python -m playwright install' not in workflow_text
 
 
+def test_refresh_workflow_refreshes_secret_backed_sharp_odds():
+    workflow_path = ROOT / '.github' / 'workflows' / 'refresh-data.yml'
+    workflow_text = workflow_path.read_text(encoding='utf-8')
+
+    assert 'ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}' in workflow_text
+    assert 'sports_odds_data.py" --refresh-pp' in workflow_text
+    assert 'wnba_player_prop_odds.json' in workflow_text
+    assert 'wnba_pp_line_matched_odds.json' in workflow_text
+
+
 def test_gamelog_can_use_github_secret_credentials():
     gamelog_path = ROOT / 'gamelog.py'
     gamelog_text = gamelog_path.read_text(encoding='utf-8')
