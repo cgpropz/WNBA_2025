@@ -1,0 +1,53 @@
+name: Refresh WNBA PrizePicks lines
+
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/30 * * * *'
+
+concurrency:
+  group: wnba-data-publish
+  cancel-in-progress: false
+
+jobs:
+  refresh-lines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Refresh PrizePicks snapshot
+        run: python wnba-pp-odds.py --write-snapshot
+
+      - name: Refresh Unabated sharp odds
+        continue-on-error: true
+        run: python unabated_props_data.py
+
+      - name: Commit line-only artifacts
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add downloaded_files/prizepicks_standard.json \
+            wnba_player_prop_odds.json \
+            wnba_pp_line_matched_odds.json
+          if git diff --cached --quiet; then
+            echo 'No PrizePicks line changes to commit.'
+          else
+            git commit -m 'chore: refresh WNBA PrizePicks lines'
+            git push
+          fi

@@ -869,4 +869,6 @@ def main():
     )
 
 if __name__ == "__main__":
-    main()
+    from unabated_props_data import main as unabated_main
+
+    unabated_main()

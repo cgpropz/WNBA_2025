@@ -17,6 +17,35 @@ PP_URL = 'https://partner-api.prizepicks.com/projections'
 SLATE_TIMEZONE = ZoneInfo('America/New_York')
 SNAPSHOT_PATH = Path('downloaded_files/prizepicks_standard.json')
 
+PP_STAT_MAP = {
+    'Points': 'pts',
+    'Rebounds': 'reb',
+    'Assists': 'ast',
+    'FG Made': 'fgm',
+    'FG Attempted': 'fga',
+    'Two Pointers Made': 'fg2m',
+    'Two Pointers Attempted': 'fg2a',
+    '3-PT Made': 'fg3m',
+    '3-PT Attempted': 'fg3a',
+    'Free Throws Made': 'ftm',
+    'Free Throws Attempted': 'fta',
+    'Steals': 'stl',
+    'Blocks': 'blk',
+    'Blocked Shots': 'blk',
+    'Blks+Stls': 'blkStl',
+    'Turnovers': 'tov',
+    'Offensive Rebounds': 'oreb',
+    'Defensive Rebounds': 'dreb',
+    'Fantasy Score': 'fantasy',
+    'Reb+Asts': 'rebAst',
+    'Rebs+Asts': 'rebAst',
+    'Pts+Rebs': 'ptsReb',
+    'Pts+Asts': 'ptsAst',
+    'Pts+Rebs+Asts': 'ptsRebAst',
+    'Double-Double': 'doubleDouble',
+    'Triple-Double': 'tripleDouble',
+}
+
 
 def load_snapshot_rows(odds_type='standard'):
     if odds_type != 'standard' or not SNAPSHOT_PATH.exists():
@@ -98,6 +127,52 @@ def parse_game_date(raw_start):
         return dt.astimezone(SLATE_TIMEZONE).strftime('%Y-%m-%d')
     except Exception:
         return str(raw_start)[:10]
+
+
+def parse_opponent(versus):
+    parts = str(versus or '').strip().upper().split()
+    return parts[-1] if parts and 2 <= len(parts[-1]) <= 4 and parts[-1].isalpha() else None
+
+
+def build_snapshot(df):
+    snapshot = {}
+    for row in df.to_dict(orient='records'):
+        name = str(row.get('Name', '')).replace('+', '').strip()
+        stat = str(row.get('Stat', '')).strip()
+        if row.get('League') != 'WNBA' or not name or not stat or stat == 'Points - 1st 3 Minutes':
+            continue
+        try:
+            line = float(row.get('Prizepicks'))
+        except (TypeError, ValueError):
+            continue
+
+        player = snapshot.setdefault(name, {'__allProps': {}})
+        versus = str(row.get('Versus', '')).strip() or None
+        player['__allProps'][stat] = {
+            'line': line,
+            'versus': versus,
+            'opponent': parse_opponent(versus),
+            'gameDate': str(row.get('GameDate', '')).strip() or None,
+        }
+        stat_key = PP_STAT_MAP.get(stat)
+        if stat_key:
+            player[stat_key] = line
+
+    for player in snapshot.values():
+        player['__allProps'] = [
+            {'stat': stat, **details}
+            for stat, details in sorted(player['__allProps'].items())
+        ]
+    return snapshot
+
+
+def write_snapshot(df, path):
+    snapshot = build_snapshot(df)
+    if not snapshot:
+        raise RuntimeError('Refusing to overwrite PrizePicks snapshot with no WNBA props.')
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(snapshot), encoding='utf-8')
+    logging.info('Wrote %s PrizePicks players to %s', len(snapshot), path)
 
 def dfs_scraper(odds_type='standard'):
     logging.info("Starting data scrape from PrizePicks API")
@@ -197,12 +272,20 @@ def main():
     parser = argparse.ArgumentParser(description='Fetch WNBA PrizePicks lines')
     parser.add_argument('--odds-type', default='standard', choices=['standard', 'demon', 'goblin', 'all'])
     parser.add_argument('--json', action='store_true', help='Print scraped rows as JSON instead of updating Google Sheets')
+    parser.add_argument('--write-snapshot', action='store_true', help='Write the backend-compatible PrizePicks snapshot instead of updating Google Sheets')
+    parser.add_argument('--snapshot-path', type=Path, default=SNAPSHOT_PATH, help='Snapshot destination used with --write-snapshot')
     args = parser.parse_args()
 
     df = dfs_scraper(args.odds_type)
 
     if args.json:
         sys.stdout.write(df.to_json(orient='records'))
+        return
+
+    if args.write_snapshot:
+        if args.odds_type != 'standard':
+            parser.error('--write-snapshot currently supports only --odds-type standard')
+        write_snapshot(df, args.snapshot_path)
         return
 
     update_google_sheet(df)
