@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: wnba-projections
+    runtime: node
+    plan: free
+    buildCommand: npm --prefix frontend ci && npm --prefix frontend run build && npm --prefix backend ci && python3 -m pip install --user -r requirements.txt
+    startCommand: node backend/index.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: PYTHON_BIN
+        value: python3
