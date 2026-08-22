@@ -9,9 +9,13 @@ on:
       skip_sheets:
         description: 'Set to 1 to skip Google Sheets upload'
         required: false
-        default: '0'
+        default: '1'
   schedule:
-    - cron: "0 */3 * * *"
+    - cron: '0 */3 * * *'
+
+concurrency:
+  group: wnba-data-publish
+  cancel-in-progress: false
 
 jobs:
   refresh:
@@ -34,44 +38,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Create Google service account credentials file
-        if: ${{ github.event.inputs.skip_sheets != '1' }}
-        env:
-          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
-        run: |
-          if [ -n "$GOOGLE_SERVICE_ACCOUNT_JSON" ]; then
-            printf '%s' "$GOOGLE_SERVICE_ACCOUNT_JSON" > Credentials2.json
-          else
-            echo 'GOOGLE_SERVICE_ACCOUNT_JSON secret is not configured' >&2
-            exit 1
-          fi
-
       - name: Run data refresh
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          PROPS_CASH_TOKEN: ${{ secrets.PROPS_CASH_TOKEN }}
           PYTHONUNBUFFERED: '1'
           SCRAPER_PREFERRED: 'api'
-          SKIP_SHEETS: ${{ github.event.inputs.skip_sheets }}
+          SKIP_SHEETS: '1'
         working-directory: ${{ github.workspace }}
         run: |
-          if [ "${{ github.event.inputs.skip_sheets }}" = "1" ]; then
-            echo 'skip_sheets=1: running gamelog.py only'
-            python "$GITHUB_WORKSPACE/gamelog.py"
-          else
-            python "$GITHUB_WORKSPACE/update_all_data.py" --core-only
-          fi
+          python "$GITHUB_WORKSPACE/update_all_data.py" --with-extras
 
-      - name: Refresh exact-line sharp odds
+      - name: Refresh PrizePicks and Unabated lines
         env:
-          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           PYTHONUNBUFFERED: '1'
-        working-directory: ${{ github.workspace }}
         run: |
-          if [ -z "$ODDS_API_KEY" ]; then
-            echo 'ODDS_API_KEY secret is not configured' >&2
-            exit 1
-          fi
-          python "$GITHUB_WORKSPACE/sports_odds_data.py" --refresh-pp
+          python wnba-pp-odds.py --write-snapshot
+          python unabated_props_data.py
 
       - name: Commit refreshed data
         if: success()
@@ -86,6 +69,14 @@ jobs:
             wnba_guard_dvp.csv \
             wnba_forward_dvp.csv \
             wnba_center_dvp.csv \
+            wnba_advanced_stats.csv \
+            wnba_player_stats_25.csv \
+            wnba_perMin_stats.csv \
+            wnba_projections.csv \
+            wnba_calculated_projections.csv \
+            WNBA_TeamRank2024.csv \
+            Daily_WNBA_lineups.csv \
+            downloaded_files/prizepicks_standard.json \
             wnba_player_prop_odds.json \
             wnba_pp_line_matched_odds.json; do
             if [ -f "$file" ]; then

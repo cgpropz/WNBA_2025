@@ -352,11 +352,6 @@ async function fetchPrizePicks(oddsType = 'standard') {
   const cached = ppCache.get(normalized);
   if (cached && now - cached.ts < 5 * 60 * 1000) return cached.data;
   if (ppInFlight.has(normalized)) return ppInFlight.get(normalized);
-  const snapshot = loadPrizePicksSnapshot(normalized);
-  if (snapshot && Object.keys(snapshot).length) {
-    ppCache.set(normalized, { data: snapshot, ts: now });
-    return snapshot;
-  }
 
   const scrapePromise = (async () => {
     try {
@@ -368,14 +363,7 @@ async function fetchPrizePicks(oddsType = 'standard') {
       const rows = stdout ? JSON.parse(stdout) : [];
       const lines = rowsToLines(rows);
       if (!Object.keys(lines).length) {
-        // Keep serving previous data if scraper returns empty payload.
-        if (cached?.data && Object.keys(cached.data).length) return cached.data;
-        const snapshot = loadPrizePicksSnapshot(normalized);
-        if (snapshot) {
-          ppCache.set(normalized, { data: snapshot, ts: now });
-          return snapshot;
-        }
-        // Brief cooldown to avoid hammering on repeated empty responses.
+        // An empty live slate is current data, not a reason to resurrect old lines.
         ppCache.set(normalized, { data: {}, ts: now });
         return {};
       }

@@ -53,16 +53,7 @@ LEGACY_TASKS = [
 EXTRA_TASKS = [
     ScriptTask('team-rank', 'Refresh team rank export', 'WNBA_TEAMRANK.py'),
     ScriptTask('daily-lineups', 'Refresh daily lineups export', 'WNBA_Daily_Lineups.py'),
-    ScriptTask('sports-odds', 'Refresh odds-enriched props export', 'sports_odds_data.py'),
 ]
-
-
-def reset_prizepicks_snapshots() -> None:
-    snapshot_dir = ROOT / 'downloaded_files'
-    for name in ('prizepicks_standard.json', 'prizepicks_demon.json', 'prizepicks_goblin.json'):
-        path = snapshot_dir / name
-        if path.exists():
-            path.write_text('{}', encoding='utf-8')
 
 
 def sync_dvp_aliases() -> None:
@@ -126,7 +117,6 @@ def parse_args() -> argparse.Namespace:
 def build_plan(args: argparse.Namespace):
     plan = [(task.label, lambda task=task: run_python_script(task)) for task in CORE_TASKS]
     plan.append(('Sync DVP filename aliases', sync_dvp_aliases))
-    plan.append(('Reset PrizePicks snapshots', reset_prizepicks_snapshots))
 
     if not args.core_only:
         plan.extend((task.label, lambda task=task: run_python_script(task)) for task in LEGACY_TASKS)
