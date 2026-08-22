@@ -6,7 +6,9 @@ import argparse
 import json
 import math
 import uuid
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -15,6 +17,7 @@ import sports_odds_data as sharp
 
 UNABATED_PROPS_URL = "https://content.unabated.com/markets/b_playerprops.json"
 WNBA_LEAGUE_ID = 7
+SLATE_TIMEZONE = ZoneInfo("America/New_York")
 SIDE_BY_KEY = {"si0": "over", "si1": "under"}
 STAT_LABELS = {
     "Points": "Points",
@@ -125,19 +128,47 @@ def normalize_records(payload):
     )
 
 
+def select_active_slate_date(records, pp_records):
+    sportsbook_dates = sorted({
+        sharp.event_date_et(record.get("commence_time"))
+        for record in records
+        if sharp.event_date_et(record.get("commence_time"))
+    })
+    if not sportsbook_dates:
+        raise RuntimeError("Unabated returned no dated WNBA events.")
+
+    today = datetime.now(SLATE_TIMEZONE).date().isoformat()
+    pp_dates = sorted({record.get("game_date") for record in pp_records if record.get("game_date")})
+    shared_dates = [date for date in pp_dates if date in sportsbook_dates and date >= today]
+    if shared_dates:
+        return shared_dates[0]
+
+    upcoming_dates = [date for date in sportsbook_dates if date >= today]
+    return upcoming_dates[0] if upcoming_dates else sportsbook_dates[-1]
+
+
 def run_pipeline(pp_snapshot_path, sportsbook_output_path, matched_output_path):
     records = normalize_records(fetch_props())
     if not records:
         raise RuntimeError("Unabated returned no active WNBA player-prop lines; refusing to publish empty sharp data.")
 
-    slate_dates = {
-        sharp.event_date_et(record.get("commence_time"))
-        for record in records
-        if sharp.event_date_et(record.get("commence_time"))
-    }
-    pp_records = sharp.load_prizepicks_records(pp_snapshot_path, allowed_dates=slate_dates)
+    all_pp_records = sharp.load_prizepicks_records(pp_snapshot_path)
+    active_slate_date = select_active_slate_date(records, all_pp_records)
+    records = [
+        record for record in records
+        if sharp.event_date_et(record.get("commence_time")) == active_slate_date
+    ]
+    pp_records = [
+        record for record in all_pp_records
+        if record.get("game_date") == active_slate_date
+    ]
+    if not records:
+        raise RuntimeError(f"Unabated returned no WNBA props for the active slate date {active_slate_date}.")
     if not pp_records:
-        pp_records = sharp.load_prizepicks_records(pp_snapshot_path)
+        raise RuntimeError(
+            f"PrizePicks snapshot has no props for the active slate date {active_slate_date}; refusing cross-date matching."
+        )
+
     matched = sharp.build_line_matched_output(records, pp_records)
     event_count = len({record["event_id"] for record in records})
 
@@ -154,7 +185,7 @@ def run_pipeline(pp_snapshot_path, sportsbook_output_path, matched_output_path):
         "provider": "unabated",
         "sport": "basketball_wnba",
         "events_scanned": event_count,
-        "sbook_slate_dates_et": sorted(slate_dates),
+        "sbook_slate_dates_et": [active_slate_date],
         "sportsbook_record_count": len(records),
         "prizepicks_prop_count": len(pp_records),
         "matched_prop_count": sum(1 for row in matched if row.get("matched_outcomes_count", 0) > 0),
