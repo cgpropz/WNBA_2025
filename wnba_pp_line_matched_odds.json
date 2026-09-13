@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-13T00:11:34Z",
+  "generated_at": "2026-09-13T05:17:10Z",
   "provider": "unabated",
   "sport": "basketball_wnba",
   "events_scanned": 4,
   "sbook_slate_dates_et": [
     "2026-09-17"
   ],
-  "sportsbook_record_count": 890,
+  "sportsbook_record_count": 892,
   "prizepicks_prop_count": 47,
   "matched_prop_count": 47,
   "records": [
@@ -17,14 +17,18 @@
       "pp_line": 26.0,
       "opponent": "SEA",
       "game_date": "2026-09-17",
-      "matched_books_count": 1,
-      "matched_outcomes_count": 2,
-      "line_mismatch_outcomes_count": 11,
+      "matched_books_count": 2,
+      "matched_outcomes_count": 4,
+      "line_mismatch_outcomes_count": 9,
       "over": {
-        "book_count": 1,
-        "average_implied_probability": 0.50495,
-        "average_american_odds": -102,
+        "book_count": 2,
+        "average_implied_probability": 0.523117,
+        "average_american_odds": -110,
         "books": [
+          {
+            "bookmaker": "PrizePicks",
+            "price": -118
+          },
           {
             "bookmaker": "Unabated",
             "price": -102
@@ -32,10 +36,14 @@
         ]
       },
       "under": {
-        "book_count": 1,
-        "average_implied_probability": 0.49505,
-        "average_american_odds": 102,
+        "book_count": 2,
+        "average_implied_probability": 0.518167,
+        "average_american_odds": -108,
         "books": [
+          {
+            "bookmaker": "PrizePicks",
+            "price": -118
+          },
           {
             "bookmaker": "Unabated",
             "price": 102
@@ -46,16 +54,17 @@
         "available": true,
         "source": "all_books_fallback",
         "side": "over",
-        "score": 0.5,
-        "edge_pct": 0.5,
-        "odds_american": -102,
-        "books_used": 1,
+        "score": 0.2,
+        "edge_pct": 0.24,
+        "odds_american": -101,
+        "books_used": 2,
         "bookmakers": [
+          "PrizePicks",
           "Unabated"
         ]
       },
-      "sharp_score": 0.5,
-      "sharp_odds": -102,
+      "sharp_score": 0.2,
+      "sharp_odds": -101,
       "sharp_side": "over",
       "sharp_reference_line": 26.0,
       "sharp_line_delta": 0.0
@@ -570,7 +579,7 @@
       "opponent": "CON",
       "game_date": "2026-09-17",
       "matched_books_count": 6,
-      "matched_outcomes_count": 11,
+      "matched_outcomes_count": 12,
       "line_mismatch_outcomes_count": 2,
       "over": {
         "book_count": 6,
@@ -604,9 +613,9 @@
         ]
       },
       "under": {
-        "book_count": 5,
-        "average_implied_probability": 0.529876,
-        "average_american_odds": -113,
+        "book_count": 6,
+        "average_implied_probability": 0.520553,
+        "average_american_odds": -109,
         "books": [
           {
             "bookmaker": "FanDuel",
@@ -619,6 +628,10 @@
           {
             "bookmaker": "Fliff",
             "price": -120
+          },
+          {
+            "bookmaker": "Novig",
+            "price": 111
           },
           {
             "bookmaker": "PrizePicks",
