@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-13T21:05:01Z",
+  "generated_at": "2026-09-13T23:25:07Z",
   "provider": "unabated",
   "sport": "basketball_wnba",
   "events_scanned": 4,
@@ -8,7 +8,7 @@
   ],
   "sportsbook_record_count": 1139,
   "prizepicks_prop_count": 85,
-  "matched_prop_count": 85,
+  "matched_prop_count": 84,
   "records": [
     {
       "player": "A'ja Wilson",
@@ -1147,68 +1147,38 @@
       "player": "Arike Ogunbowale",
       "stat_label": "Points",
       "stat_key": "pts",
-      "pp_line": 16.5,
+      "pp_line": 17.0,
       "opponent": "LAS",
       "game_date": "2026-09-17",
-      "matched_books_count": 3,
-      "matched_outcomes_count": 6,
-      "line_mismatch_outcomes_count": 8,
+      "matched_books_count": 0,
+      "matched_outcomes_count": 0,
+      "line_mismatch_outcomes_count": 14,
       "over": {
-        "book_count": 3,
-        "average_implied_probability": 0.566938,
-        "average_american_odds": -131,
-        "books": [
-          {
-            "bookmaker": "Fanatics",
-            "price": -135
-          },
-          {
-            "bookmaker": "PrizePicks",
-            "price": -118
-          },
-          {
-            "bookmaker": "Underdog Prediction Market",
-            "price": -141
-          }
-        ]
+        "book_count": 0,
+        "average_implied_probability": null,
+        "average_american_odds": null,
+        "books": []
       },
       "under": {
-        "book_count": 3,
-        "average_implied_probability": 0.513761,
-        "average_american_odds": -106,
-        "books": [
-          {
-            "bookmaker": "Fanatics",
-            "price": 105
-          },
-          {
-            "bookmaker": "PrizePicks",
-            "price": -118
-          },
-          {
-            "bookmaker": "Underdog Prediction Market",
-            "price": -105
-          }
-        ]
+        "book_count": 0,
+        "average_implied_probability": null,
+        "average_american_odds": null,
+        "books": []
       },
       "sharp": {
-        "available": true,
-        "source": "all_books_fallback",
-        "side": "over",
-        "score": 2.5,
-        "edge_pct": 2.46,
-        "odds_american": -110,
-        "books_used": 3,
-        "bookmakers": [
-          "Fanatics",
-          "PrizePicks",
-          "Underdog Prediction Market"
-        ]
+        "available": false,
+        "source": "none",
+        "side": null,
+        "score": 0.0,
+        "edge_pct": 0.0,
+        "odds_american": null,
+        "books_used": 0,
+        "bookmakers": []
       },
-      "sharp_score": 2.5,
-      "sharp_odds": -110,
-      "sharp_side": "over",
-      "sharp_reference_line": 16.5,
+      "sharp_score": 0.0,
+      "sharp_odds": null,
+      "sharp_side": null,
+      "sharp_reference_line": 17.0,
       "sharp_line_delta": 0.0
     },
     {
