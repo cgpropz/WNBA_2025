@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T01:30:48Z",
+  "generated_at": "2026-09-14T07:49:46Z",
   "provider": "unabated",
   "sport": "basketball_wnba",
   "events_scanned": 4,
@@ -8,7 +8,7 @@
   ],
   "sportsbook_record_count": 1139,
   "prizepicks_prop_count": 85,
-  "matched_prop_count": 84,
+  "matched_prop_count": 85,
   "records": [
     {
       "player": "A'ja Wilson",
@@ -869,7 +869,7 @@
       "opponent": "CON",
       "game_date": "2026-09-17",
       "matched_books_count": 7,
-      "matched_outcomes_count": 14,
+      "matched_outcomes_count": 13,
       "line_mismatch_outcomes_count": 2,
       "over": {
         "book_count": 7,
@@ -907,9 +907,9 @@
         ]
       },
       "under": {
-        "book_count": 7,
-        "average_implied_probability": 0.526389,
-        "average_american_odds": -111,
+        "book_count": 6,
+        "average_implied_probability": 0.535131,
+        "average_american_odds": -115,
         "books": [
           {
             "bookmaker": "FanDuel",
@@ -922,10 +922,6 @@
           {
             "bookmaker": "Fliff",
             "price": -120
-          },
-          {
-            "bookmaker": "Novig",
-            "price": 111
           },
           {
             "bookmaker": "PrizePicks",
@@ -1150,34 +1146,46 @@
       "pp_line": 17.0,
       "opponent": "LAS",
       "game_date": "2026-09-17",
-      "matched_books_count": 0,
-      "matched_outcomes_count": 0,
-      "line_mismatch_outcomes_count": 14,
+      "matched_books_count": 1,
+      "matched_outcomes_count": 2,
+      "line_mismatch_outcomes_count": 12,
       "over": {
-        "book_count": 0,
-        "average_implied_probability": null,
-        "average_american_odds": null,
-        "books": []
+        "book_count": 1,
+        "average_implied_probability": 0.541284,
+        "average_american_odds": -118,
+        "books": [
+          {
+            "bookmaker": "PrizePicks",
+            "price": -118
+          }
+        ]
       },
       "under": {
-        "book_count": 0,
-        "average_implied_probability": null,
-        "average_american_odds": null,
-        "books": []
+        "book_count": 1,
+        "average_implied_probability": 0.541284,
+        "average_american_odds": -118,
+        "books": [
+          {
+            "bookmaker": "PrizePicks",
+            "price": -118
+          }
+        ]
       },
       "sharp": {
-        "available": false,
-        "source": "none",
-        "side": null,
+        "available": true,
+        "source": "all_books_fallback",
+        "side": "over",
         "score": 0.0,
         "edge_pct": 0.0,
-        "odds_american": null,
-        "books_used": 0,
-        "bookmakers": []
+        "odds_american": -100,
+        "books_used": 1,
+        "bookmakers": [
+          "PrizePicks"
+        ]
       },
       "sharp_score": 0.0,
-      "sharp_odds": null,
-      "sharp_side": null,
+      "sharp_odds": -100,
+      "sharp_side": "over",
       "sharp_reference_line": 17.0,
       "sharp_line_delta": 0.0
     },
@@ -1325,8 +1333,8 @@
       "line_mismatch_outcomes_count": 0,
       "over": {
         "book_count": 4,
-        "average_implied_probability": 0.529166,
-        "average_american_odds": -112,
+        "average_implied_probability": 0.531809,
+        "average_american_odds": -114,
         "books": [
           {
             "bookmaker": "FanDuel",
@@ -1338,7 +1346,7 @@
           },
           {
             "bookmaker": "Fliff",
-            "price": -115
+            "price": -120
           },
           {
             "bookmaker": "PrizePicks",
@@ -1348,8 +1356,8 @@
       },
       "under": {
         "book_count": 4,
-        "average_implied_probability": 0.54842,
-        "average_american_odds": -121,
+        "average_implied_probability": 0.545895,
+        "average_american_odds": -120,
         "books": [
           {
             "bookmaker": "FanDuel",
@@ -1361,7 +1369,7 @@
           },
           {
             "bookmaker": "Fliff",
-            "price": -125
+            "price": -120
           },
           {
             "bookmaker": "PrizePicks",
@@ -3841,8 +3849,8 @@
       "line_mismatch_outcomes_count": 3,
       "over": {
         "book_count": 7,
-        "average_implied_probability": 0.580195,
-        "average_american_odds": -138,
+        "average_implied_probability": 0.581343,
+        "average_american_odds": -139,
         "books": [
           {
             "bookmaker": "FanDuel",
@@ -3866,7 +3874,7 @@
           },
           {
             "bookmaker": "Sleeper",
-            "price": -147
+            "price": -152
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -3876,7 +3884,7 @@
       },
       "under": {
         "book_count": 6,
-        "average_implied_probability": 0.512034,
+        "average_implied_probability": 0.511278,
         "average_american_odds": -105,
         "books": [
           {
@@ -3897,7 +3905,7 @@
           },
           {
             "bookmaker": "Sleeper",
-            "price": -111
+            "price": -109
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -4397,8 +4405,8 @@
       "line_mismatch_outcomes_count": 0,
       "over": {
         "book_count": 4,
-        "average_implied_probability": 0.56178,
-        "average_american_odds": -128,
+        "average_implied_probability": 0.556716,
+        "average_american_odds": -126,
         "books": [
           {
             "bookmaker": "FanDuel",
@@ -4406,7 +4414,7 @@
           },
           {
             "bookmaker": "Fliff",
-            "price": -130
+            "price": -125
           },
           {
             "bookmaker": "PrizePicks",
@@ -4414,14 +4422,14 @@
           },
           {
             "bookmaker": "Sleeper",
-            "price": -141
+            "price": -135
           }
         ]
       },
       "under": {
         "book_count": 4,
-        "average_implied_probability": 0.529174,
-        "average_american_odds": -112,
+        "average_implied_probability": 0.53507,
+        "average_american_odds": -115,
         "books": [
           {
             "bookmaker": "FanDuel",
@@ -4429,7 +4437,7 @@
           },
           {
             "bookmaker": "Fliff",
-            "price": -110
+            "price": -115
           },
           {
             "bookmaker": "PrizePicks",
@@ -4437,7 +4445,7 @@
           },
           {
             "bookmaker": "Sleeper",
-            "price": -116
+            "price": -122
           }
         ]
       },
