@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-15T01:49:07Z",
+  "generated_at": "2026-09-15T07:35:39Z",
   "provider": "unabated",
   "sport": "basketball_wnba",
   "events_scanned": 4,
   "sbook_slate_dates_et": [
     "2026-09-17"
   ],
-  "sportsbook_record_count": 2518,
+  "sportsbook_record_count": 2513,
   "prizepicks_prop_count": 114,
   "matched_prop_count": 114,
   "records": [
@@ -22,7 +22,22 @@
       "line_mismatch_outcomes_count": 23,
       "over": {
         "book_count": 2,
-        "average_implied_probability": 0.518167,
+        "average_implied_probability": 0.521886,
+        "average_american_odds": -109,
+        "books": [
+          {
+            "bookmaker": "PrizePicks",
+            "price": -118
+          },
+          {
+            "bookmaker": "Unabated",
+            "price": -101
+          }
+        ]
+      },
+      "under": {
+        "book_count": 2,
+        "average_implied_probability": 0.519398,
         "average_american_odds": -108,
         "books": [
           {
@@ -31,41 +46,26 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 102
-          }
-        ]
-      },
-      "under": {
-        "book_count": 2,
-        "average_implied_probability": 0.523117,
-        "average_american_odds": -110,
-        "books": [
-          {
-            "bookmaker": "PrizePicks",
-            "price": -118
-          },
-          {
-            "bookmaker": "Unabated",
-            "price": -102
+            "price": 101
           }
         ]
       },
       "sharp": {
         "available": true,
         "source": "all_books_fallback",
-        "side": "under",
-        "score": 0.2,
-        "edge_pct": 0.24,
-        "odds_american": -101,
+        "side": "over",
+        "score": 0.1,
+        "edge_pct": 0.12,
+        "odds_american": -100,
         "books_used": 2,
         "bookmakers": [
           "PrizePicks",
           "Unabated"
         ]
       },
-      "sharp_score": 0.2,
-      "sharp_odds": -101,
-      "sharp_side": "under",
+      "sharp_score": 0.1,
+      "sharp_odds": -100,
+      "sharp_side": "over",
       "sharp_reference_line": 26.0,
       "sharp_line_delta": 0.0
     },
@@ -275,13 +275,13 @@
       "pp_line": 9.5,
       "opponent": "SEA",
       "game_date": "2026-09-17",
-      "matched_books_count": 13,
-      "matched_outcomes_count": 26,
-      "line_mismatch_outcomes_count": 1,
+      "matched_books_count": 12,
+      "matched_outcomes_count": 24,
+      "line_mismatch_outcomes_count": 3,
       "over": {
-        "book_count": 13,
-        "average_implied_probability": 0.529089,
-        "average_american_odds": -112,
+        "book_count": 12,
+        "average_implied_probability": 0.533498,
+        "average_american_odds": -114,
         "books": [
           {
             "bookmaker": "BetOnline",
@@ -328,19 +328,15 @@
             "price": -108
           },
           {
-            "bookmaker": "Unabated",
-            "price": 110
-          },
-          {
             "bookmaker": "Underdog Prediction Market",
             "price": -115
           }
         ]
       },
       "under": {
-        "book_count": 13,
-        "average_implied_probability": 0.541593,
-        "average_american_odds": -118,
+        "book_count": 12,
+        "average_implied_probability": 0.543075,
+        "average_american_odds": -119,
         "books": [
           {
             "bookmaker": "BetOnline",
@@ -385,10 +381,6 @@
           {
             "bookmaker": "SportsBetting",
             "price": -120
-          },
-          {
-            "bookmaker": "Unabated",
-            "price": -110
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -1082,7 +1074,7 @@
       "line_mismatch_outcomes_count": 1,
       "over": {
         "book_count": 14,
-        "average_implied_probability": 0.532133,
+        "average_implied_probability": 0.531821,
         "average_american_odds": -114,
         "books": [
           {
@@ -1119,7 +1111,7 @@
           },
           {
             "bookmaker": "Novig",
-            "price": -115
+            "price": -113
           },
           {
             "bookmaker": "PrizePicks",
@@ -1810,59 +1802,131 @@
       "player": "Arike Ogunbowale",
       "stat_label": "Points",
       "stat_key": "pts",
-      "pp_line": 17.0,
+      "pp_line": 17.5,
       "opponent": "LAS",
       "game_date": "2026-09-17",
-      "matched_books_count": 2,
-      "matched_outcomes_count": 4,
-      "line_mismatch_outcomes_count": 21,
+      "matched_books_count": 11,
+      "matched_outcomes_count": 22,
+      "line_mismatch_outcomes_count": 3,
       "over": {
-        "book_count": 2,
-        "average_implied_probability": 0.52674,
-        "average_american_odds": -111,
+        "book_count": 11,
+        "average_implied_probability": 0.52379,
+        "average_american_odds": -110,
         "books": [
+          {
+            "bookmaker": "BetOnline",
+            "price": -110
+          },
+          {
+            "bookmaker": "Bovada",
+            "price": -110
+          },
+          {
+            "bookmaker": "Caesars",
+            "price": -112
+          },
+          {
+            "bookmaker": "DraftKings",
+            "price": -116
+          },
+          {
+            "bookmaker": "FanDuel",
+            "price": -104
+          },
+          {
+            "bookmaker": "Fanatics",
+            "price": -105
+          },
+          {
+            "bookmaker": "Fliff",
+            "price": -115
+          },
+          {
+            "bookmaker": "Novig",
+            "price": -106
+          },
           {
             "bookmaker": "PrizePicks",
             "price": -118
           },
           {
-            "bookmaker": "Unabated",
+            "bookmaker": "SportsBetting",
+            "price": -110
+          },
+          {
+            "bookmaker": "Underdog Prediction Market",
             "price": -105
           }
         ]
       },
       "under": {
-        "book_count": 2,
-        "average_implied_probability": 0.514545,
-        "average_american_odds": -106,
+        "book_count": 11,
+        "average_implied_probability": 0.549153,
+        "average_american_odds": -122,
         "books": [
+          {
+            "bookmaker": "BetOnline",
+            "price": -118
+          },
+          {
+            "bookmaker": "Bovada",
+            "price": -118
+          },
+          {
+            "bookmaker": "Caesars",
+            "price": -120
+          },
+          {
+            "bookmaker": "DraftKings",
+            "price": -115
+          },
+          {
+            "bookmaker": "FanDuel",
+            "price": -125
+          },
+          {
+            "bookmaker": "Fanatics",
+            "price": -125
+          },
+          {
+            "bookmaker": "Fliff",
+            "price": -125
+          },
+          {
+            "bookmaker": "Novig",
+            "price": -130
+          },
           {
             "bookmaker": "PrizePicks",
             "price": -118
           },
           {
-            "bookmaker": "Unabated",
-            "price": 105
+            "bookmaker": "SportsBetting",
+            "price": -118
+          },
+          {
+            "bookmaker": "Underdog Prediction Market",
+            "price": -129
           }
         ]
       },
       "sharp": {
         "available": true,
-        "source": "all_books_fallback",
-        "side": "over",
-        "score": 0.6,
-        "edge_pct": 0.59,
-        "odds_american": -102,
+        "source": "sharp_books",
+        "side": "under",
+        "score": 1.0,
+        "edge_pct": 1.02,
+        "odds_american": -104,
         "books_used": 2,
         "bookmakers": [
-          "PrizePicks",
-          "Unabated"
+          "DraftKings",
+          "FanDuel"
         ]
       },
-      "sharp_score": 0.6,
-      "sharp_odds": -102,
-      "sharp_side": "over",
-      "sharp_reference_line": 17.0,
+      "sharp_score": 1.0,
+      "sharp_odds": -104,
+      "sharp_side": "under",
+      "sharp_reference_line": 17.5,
       "sharp_line_delta": 0.0
     },
     {
@@ -2551,7 +2615,7 @@
       "line_mismatch_outcomes_count": 1,
       "over": {
         "book_count": 13,
-        "average_implied_probability": 0.532862,
+        "average_implied_probability": 0.531916,
         "average_american_odds": -114,
         "books": [
           {
@@ -2600,7 +2664,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": -101
+            "price": 104
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -2610,7 +2674,7 @@
       },
       "under": {
         "book_count": 13,
-        "average_implied_probability": 0.538575,
+        "average_implied_probability": 0.539521,
         "average_american_odds": -117,
         "books": [
           {
@@ -2659,7 +2723,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 101
+            "price": -104
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -2698,7 +2762,7 @@
       "line_mismatch_outcomes_count": 1,
       "over": {
         "book_count": 13,
-        "average_implied_probability": 0.521608,
+        "average_implied_probability": 0.521427,
         "average_american_odds": -109,
         "books": [
           {
@@ -2747,7 +2811,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 106
+            "price": 107
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -2757,7 +2821,7 @@
       },
       "under": {
         "book_count": 13,
-        "average_implied_probability": 0.548656,
+        "average_implied_probability": 0.548836,
         "average_american_odds": -122,
         "books": [
           {
@@ -2806,7 +2870,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": -106
+            "price": -107
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -3304,7 +3368,7 @@
       },
       "under": {
         "book_count": 12,
-        "average_implied_probability": 0.533726,
+        "average_implied_probability": 0.533226,
         "average_american_odds": -114,
         "books": [
           {
@@ -3333,7 +3397,7 @@
           },
           {
             "bookmaker": "Novig",
-            "price": -125
+            "price": -122
           },
           {
             "bookmaker": "PrizePicks",
@@ -5278,11 +5342,11 @@
       "game_date": "2026-09-17",
       "matched_books_count": 2,
       "matched_outcomes_count": 4,
-      "line_mismatch_outcomes_count": 18,
+      "line_mismatch_outcomes_count": 20,
       "over": {
         "book_count": 2,
-        "average_implied_probability": 0.524337,
-        "average_american_odds": -110,
+        "average_implied_probability": 0.527924,
+        "average_american_odds": -112,
         "books": [
           {
             "bookmaker": "PrizePicks",
@@ -5290,14 +5354,14 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": -103
+            "price": -106
           }
         ]
       },
       "under": {
         "book_count": 2,
-        "average_implied_probability": 0.516948,
-        "average_american_odds": -107,
+        "average_implied_probability": 0.513361,
+        "average_american_odds": -105,
         "books": [
           {
             "bookmaker": "PrizePicks",
@@ -5305,7 +5369,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 103
+            "price": 106
           }
         ]
       },
@@ -5313,17 +5377,17 @@
         "available": true,
         "source": "all_books_fallback",
         "side": "over",
-        "score": 0.4,
-        "edge_pct": 0.35,
-        "odds_american": -101,
+        "score": 0.7,
+        "edge_pct": 0.7,
+        "odds_american": -103,
         "books_used": 2,
         "bookmakers": [
           "PrizePicks",
           "Unabated"
         ]
       },
-      "sharp_score": 0.4,
-      "sharp_odds": -101,
+      "sharp_score": 0.7,
+      "sharp_odds": -103,
       "sharp_side": "over",
       "sharp_reference_line": 5.0,
       "sharp_line_delta": 0.0
@@ -5340,8 +5404,8 @@
       "line_mismatch_outcomes_count": 20,
       "over": {
         "book_count": 2,
-        "average_implied_probability": 0.520642,
-        "average_american_odds": -109,
+        "average_implied_probability": 0.519398,
+        "average_american_odds": -108,
         "books": [
           {
             "bookmaker": "PrizePicks",
@@ -5349,13 +5413,13 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 100
+            "price": 101
           }
         ]
       },
       "under": {
         "book_count": 2,
-        "average_implied_probability": 0.520642,
+        "average_implied_probability": 0.521886,
         "average_american_odds": -109,
         "books": [
           {
@@ -5364,16 +5428,16 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 100
+            "price": -101
           }
         ]
       },
       "sharp": {
         "available": true,
         "source": "all_books_fallback",
-        "side": "over",
-        "score": 0.0,
-        "edge_pct": 0.0,
+        "side": "under",
+        "score": 0.1,
+        "edge_pct": 0.12,
         "odds_american": -100,
         "books_used": 2,
         "bookmakers": [
@@ -5381,9 +5445,9 @@
           "Unabated"
         ]
       },
-      "sharp_score": 0.0,
+      "sharp_score": 0.1,
       "sharp_odds": -100,
-      "sharp_side": "over",
+      "sharp_side": "under",
       "sharp_reference_line": 15.0,
       "sharp_line_delta": 0.0
     },
@@ -5631,8 +5695,8 @@
       "line_mismatch_outcomes_count": 21,
       "over": {
         "book_count": 2,
-        "average_implied_probability": 0.513361,
-        "average_american_odds": -105,
+        "average_implied_probability": 0.514545,
+        "average_american_odds": -106,
         "books": [
           {
             "bookmaker": "PrizePicks",
@@ -5640,14 +5704,14 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 106
+            "price": 105
           }
         ]
       },
       "under": {
         "book_count": 2,
-        "average_implied_probability": 0.527924,
-        "average_american_odds": -112,
+        "average_implied_probability": 0.52674,
+        "average_american_odds": -111,
         "books": [
           {
             "bookmaker": "PrizePicks",
@@ -5655,7 +5719,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": -106
+            "price": -105
           }
         ]
       },
@@ -5663,17 +5727,17 @@
         "available": true,
         "source": "all_books_fallback",
         "side": "under",
-        "score": 0.7,
-        "edge_pct": 0.7,
-        "odds_american": -103,
+        "score": 0.6,
+        "edge_pct": 0.59,
+        "odds_american": -102,
         "books_used": 2,
         "bookmakers": [
           "PrizePicks",
           "Unabated"
         ]
       },
-      "sharp_score": 0.7,
-      "sharp_odds": -103,
+      "sharp_score": 0.6,
+      "sharp_odds": -102,
       "sharp_side": "under",
       "sharp_reference_line": 11.0,
       "sharp_line_delta": 0.0
@@ -6988,50 +7052,155 @@
       "player": "Kiki Iriafen",
       "stat_label": "Points",
       "stat_key": "pts",
-      "pp_line": 16.0,
+      "pp_line": 15.5,
       "opponent": "CHI",
       "game_date": "2026-09-17",
-      "matched_books_count": 1,
-      "matched_outcomes_count": 2,
-      "line_mismatch_outcomes_count": 27,
+      "matched_books_count": 14,
+      "matched_outcomes_count": 28,
+      "line_mismatch_outcomes_count": 1,
       "over": {
-        "book_count": 1,
-        "average_implied_probability": 0.541284,
-        "average_american_odds": -118,
+        "book_count": 14,
+        "average_implied_probability": 0.550123,
+        "average_american_odds": -122,
         "books": [
+          {
+            "bookmaker": "BetOnline",
+            "price": -120
+          },
+          {
+            "bookmaker": "Bovada",
+            "price": -120
+          },
+          {
+            "bookmaker": "Caesars",
+            "price": -121
+          },
+          {
+            "bookmaker": "DraftKings",
+            "price": -115
+          },
+          {
+            "bookmaker": "DraftKings Pick6",
+            "price": -125
+          },
+          {
+            "bookmaker": "FanDuel",
+            "price": -128
+          },
+          {
+            "bookmaker": "Fanatics",
+            "price": -115
+          },
+          {
+            "bookmaker": "Fliff",
+            "price": -130
+          },
+          {
+            "bookmaker": "Novig",
+            "price": -122
+          },
           {
             "bookmaker": "PrizePicks",
             "price": -118
+          },
+          {
+            "bookmaker": "Sleeper",
+            "price": -141
+          },
+          {
+            "bookmaker": "SportsBetting",
+            "price": -120
+          },
+          {
+            "bookmaker": "Unabated",
+            "price": -102
+          },
+          {
+            "bookmaker": "Underdog Prediction Market",
+            "price": -141
           }
         ]
       },
       "under": {
-        "book_count": 1,
-        "average_implied_probability": 0.541284,
-        "average_american_odds": -118,
+        "book_count": 14,
+        "average_implied_probability": 0.526074,
+        "average_american_odds": -111,
         "books": [
+          {
+            "bookmaker": "BetOnline",
+            "price": -108
+          },
+          {
+            "bookmaker": "Bovada",
+            "price": -108
+          },
+          {
+            "bookmaker": "Caesars",
+            "price": -110
+          },
+          {
+            "bookmaker": "DraftKings",
+            "price": -115
+          },
+          {
+            "bookmaker": "DraftKings Pick6",
+            "price": -125
+          },
+          {
+            "bookmaker": "FanDuel",
+            "price": -102
+          },
+          {
+            "bookmaker": "Fanatics",
+            "price": -115
+          },
+          {
+            "bookmaker": "Fliff",
+            "price": -110
+          },
+          {
+            "bookmaker": "Novig",
+            "price": -117
+          },
           {
             "bookmaker": "PrizePicks",
             "price": -118
+          },
+          {
+            "bookmaker": "Sleeper",
+            "price": -116
+          },
+          {
+            "bookmaker": "SportsBetting",
+            "price": -108
+          },
+          {
+            "bookmaker": "Unabated",
+            "price": 102
+          },
+          {
+            "bookmaker": "Underdog Prediction Market",
+            "price": -107
           }
         ]
       },
       "sharp": {
         "available": true,
-        "source": "all_books_fallback",
+        "source": "sharp_books",
         "side": "over",
-        "score": 0.0,
-        "edge_pct": 0.0,
-        "odds_american": -100,
-        "books_used": 1,
+        "score": 1.3,
+        "edge_pct": 1.32,
+        "odds_american": -105,
+        "books_used": 2,
         "bookmakers": [
-          "PrizePicks"
+          "DraftKings",
+          "FanDuel"
         ]
       },
-      "sharp_score": 0.0,
-      "sharp_odds": -100,
+      "sharp_score": 1.3,
+      "sharp_odds": -105,
       "sharp_side": "over",
-      "sharp_reference_line": 16.0,
+      "sharp_reference_line": 15.5,
       "sharp_line_delta": 0.0
     },
     {
@@ -8189,8 +8358,8 @@
       "line_mismatch_outcomes_count": 1,
       "over": {
         "book_count": 12,
-        "average_implied_probability": 0.531176,
-        "average_american_odds": -113,
+        "average_implied_probability": 0.532428,
+        "average_american_odds": -114,
         "books": [
           {
             "bookmaker": "BetOnline",
@@ -8218,11 +8387,11 @@
           },
           {
             "bookmaker": "Fliff",
-            "price": -115
+            "price": -120
           },
           {
             "bookmaker": "Novig",
-            "price": -111
+            "price": -113
           },
           {
             "bookmaker": "PrizePicks",
@@ -8244,8 +8413,8 @@
       },
       "under": {
         "book_count": 12,
-        "average_implied_probability": 0.534638,
-        "average_american_odds": -115,
+        "average_implied_probability": 0.533796,
+        "average_american_odds": -114,
         "books": [
           {
             "bookmaker": "BetOnline",
@@ -8273,7 +8442,7 @@
           },
           {
             "bookmaker": "Fliff",
-            "price": -125
+            "price": -120
           },
           {
             "bookmaker": "Novig",
@@ -9671,8 +9840,8 @@
       "line_mismatch_outcomes_count": 24,
       "over": {
         "book_count": 2,
-        "average_implied_probability": 0.506491,
-        "average_american_odds": -103,
+        "average_implied_probability": 0.51574,
+        "average_american_odds": -107,
         "books": [
           {
             "bookmaker": "PrizePicks",
@@ -9680,14 +9849,14 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 112
+            "price": 104
           }
         ]
       },
       "under": {
         "book_count": 2,
-        "average_implied_probability": 0.534793,
-        "average_american_odds": -115,
+        "average_implied_probability": 0.525544,
+        "average_american_odds": -111,
         "books": [
           {
             "bookmaker": "PrizePicks",
@@ -9695,7 +9864,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": -112
+            "price": -104
           }
         ]
       },
@@ -9703,17 +9872,17 @@
         "available": true,
         "source": "all_books_fallback",
         "side": "under",
-        "score": 1.4,
-        "edge_pct": 1.36,
-        "odds_american": -106,
+        "score": 0.5,
+        "edge_pct": 0.47,
+        "odds_american": -102,
         "books_used": 2,
         "bookmakers": [
           "PrizePicks",
           "Unabated"
         ]
       },
-      "sharp_score": 1.4,
-      "sharp_odds": -106,
+      "sharp_score": 0.5,
+      "sharp_odds": -102,
       "sharp_side": "under",
       "sharp_reference_line": 5.0,
       "sharp_line_delta": 0.0
@@ -9730,8 +9899,8 @@
       "line_mismatch_outcomes_count": 1,
       "over": {
         "book_count": 14,
-        "average_implied_probability": 0.511069,
-        "average_american_odds": -105,
+        "average_implied_probability": 0.510594,
+        "average_american_odds": -104,
         "books": [
           {
             "bookmaker": "BetOnline",
@@ -9783,7 +9952,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 111
+            "price": 114
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -9793,7 +9962,7 @@
       },
       "under": {
         "book_count": 14,
-        "average_implied_probability": 0.568729,
+        "average_implied_probability": 0.569204,
         "average_american_odds": -132,
         "books": [
           {
@@ -9846,7 +10015,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": -111
+            "price": -114
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -9885,7 +10054,7 @@
       "line_mismatch_outcomes_count": 1,
       "over": {
         "book_count": 14,
-        "average_implied_probability": 0.538728,
+        "average_implied_probability": 0.539456,
         "average_american_odds": -117,
         "books": [
           {
@@ -9898,7 +10067,7 @@
           },
           {
             "bookmaker": "Caesars",
-            "price": -115
+            "price": -121
           },
           {
             "bookmaker": "DraftKings",
@@ -9938,7 +10107,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": -103
+            "price": -102
           },
           {
             "bookmaker": "Underdog Prediction Market",
@@ -9948,8 +10117,8 @@
       },
       "under": {
         "book_count": 14,
-        "average_implied_probability": 0.53421,
-        "average_american_odds": -115,
+        "average_implied_probability": 0.533593,
+        "average_american_odds": -114,
         "books": [
           {
             "bookmaker": "BetOnline",
@@ -9961,7 +10130,7 @@
           },
           {
             "bookmaker": "Caesars",
-            "price": -115
+            "price": -110
           },
           {
             "bookmaker": "DraftKings",
@@ -10001,7 +10170,7 @@
           },
           {
             "bookmaker": "Unabated",
-            "price": 103
+            "price": 102
           },
           {
             "bookmaker": "Underdog Prediction Market",
