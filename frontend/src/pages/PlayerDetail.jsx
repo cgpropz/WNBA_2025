@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { fetchApi } from '../hooks/useApi'
 import PointsTrendChart from '../components/charts/PointsTrendChart'
 import StatWindowBarChart from '../components/charts/StatWindowBarChart'
-import { fmt1, fmt2, posBadgeClass, teamColor, dvpLabel, formatDate, ratingLabel, ratingColor } from '../utils/formatters'
+import { fmt1, fmt2, fmtDvpRank, posBadgeClass, teamColor, dvpLabel, formatDate, ratingLabel, ratingColor } from '../utils/formatters'
 
 const PROP_COLOR_MAP = {
   'Points': '#FF6900',
@@ -138,7 +138,7 @@ function FormulaCard({ ppmData, avgMins, dvpFactor, projPts }) {
         <span style={{ color: '#6b7280' }}>×</span>
         <span style={{ color: '#e5e5e5', fontWeight: 600 }}>{fmt1(avgMins)} MIN</span>
         <span style={{ color: '#6b7280' }}>×</span>
-        <span style={{ color: dvpLabel(dvpFactor).color, fontWeight: 600 }}>{dvpFactor?.toFixed(3)} DVP</span>
+        <span style={{ color: dvpLabel(dvpFactor).color, fontWeight: 600 }}>{fmtDvpRank(dvpFactor)} DVP</span>
         <span style={{ color: '#6b7280' }}>=</span>
         <span style={{ fontSize: 20, fontWeight: 900, color: '#FF6900' }}>{fmt1(projPts)} PTS</span>
       </div>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useApi } from '../hooks/useApi'
 import ProjectionTable from '../components/projections/ProjectionTable'
 import L10HitRateChart from '../components/charts/L10HitRateChart'
+import { dvpLabel, fmtDvpRank } from '../utils/formatters'
 
 const POSITIONS = ['All', 'Guard', 'Forward', 'Center']
 const LINE_TYPES = ['standard', 'demon', 'goblin']
@@ -102,11 +103,6 @@ function spreadColor(spread) {
 function fmtSpread(spread) {
   if (spread == null || Number.isNaN(spread)) return 'Spread —'
   return `Spread ${spread > 0 ? '+' : ''}${spread.toFixed(1)}`
-}
-
-function fmtDvpFactor(value) {
-  if (value == null || Number.isNaN(value)) return '1.00x'
-  return `${value.toFixed(2)}x`
 }
 
 function fmtAmericanOdds(value) {
@@ -434,7 +430,7 @@ export default function Projections() {
                   </div>
                   <div>
                     <p className="edge-stat-label">DVP</p>
-                    <p className="edge-stat-value">{fmtDvpFactor(player.dvpFactor)}</p>
+                    <p className="edge-stat-value" style={{ color: dvpLabel(player.dvpFactor).color }}>{fmtDvpRank(player.dvpFactor)}</p>
                   </div>
                   <div>
                     <p className="edge-stat-label">Sharp</p>

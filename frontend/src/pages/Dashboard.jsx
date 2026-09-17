@@ -66,8 +66,8 @@ function fmtSpread(spread) {
 }
 
 function fmtDvpFactor(value) {
-  if (value == null || Number.isNaN(value)) return '1.00x'
-  return `${value.toFixed(2)}x`
+  if (value == null || Number.isNaN(value)) return '—'
+  return String(Math.round(value))
 }
 
 function hitColor(pct) {
