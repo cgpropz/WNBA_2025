@@ -43,7 +43,7 @@ const ppInFlight = new Map();
 const PYTHON_BIN = process.env.PYTHON_BIN || path.join(ROOT, 'venv', 'bin', 'python');
 const PP_SCRIPT = path.join(ROOT, 'wnba-pp-odds.py');
 const PP_SNAPSHOT_DIR = path.join(ROOT, 'downloaded_files');
-const SHARP_ODDS_PATH = path.join(ROOT, 'wnba_pp_line_matched_odds.json');
+const SPORTSBOOK_ODDS_PATH = path.join(ROOT, 'wnba_player_prop_odds.json');
 const sharpOddsCache = { map: new Map(), ts: 0 };
 
 function normalizeTextKey(value) {
@@ -63,30 +63,82 @@ function buildSharpKey(player, statLabel, line) {
   return `${normalizeNameKey(player)}|${normalizeTextKey(statLabel)}|${normalizeLineKey(line)}`;
 }
 
+function americanToImpliedProbability(odds) {
+  const value = Number(odds);
+  if (!Number.isFinite(value) || value === 0) return null;
+  return value > 0 ? 100 / (value + 100) : -value / (-value + 100);
+}
+
+function impliedProbabilityToAmerican(probability) {
+  if (!Number.isFinite(probability) || probability <= 0 || probability >= 1) return null;
+  return Math.round(probability >= 0.5
+    ? -100 * probability / (1 - probability)
+    : 100 * (1 - probability) / probability);
+}
+
 function loadSharpOddsMap() {
   const now = Date.now();
-  if (sharpOddsCache.map.size && now - sharpOddsCache.ts < 60 * 1000) {
+  if (sharpOddsCache.ts && now - sharpOddsCache.ts < 60 * 1000) {
     return sharpOddsCache.map;
   }
 
   const map = new Map();
   try {
-    const raw = fs.readFileSync(SHARP_ODDS_PATH, 'utf8');
+    const raw = fs.readFileSync(SPORTSBOOK_ODDS_PATH, 'utf8');
     const payload = JSON.parse(raw);
     const records = Array.isArray(payload?.records) ? payload.records : [];
-    const todayET = new Date().toLocaleDateString('en-CA', { timeZone: 'America/New_York' });
+    const markets = new Map();
+
     records.forEach(record => {
-      const isCurrentExactSharp = record?.game_date === todayET
-        && record?.matched_outcomes_count > 0
-        && Number(record?.sharp_line_delta) === 0
-        && record?.sharp?.available
-        && record?.sharp?.source === 'sharp_books';
-      if (!isCurrentExactSharp) return;
-      const key = buildSharpKey(record.player, record.stat_label, record.pp_line);
-      if (key) map.set(key, record);
+      const key = buildSharpKey(record?.player, record?.stat_label, record?.line);
+      const side = String(record?.side || '').toLowerCase();
+      const probability = americanToImpliedProbability(record?.price);
+      if (!key || !['over', 'under'].includes(side) || probability == null || !record?.bookmaker_key) return;
+      const market = markets.get(key) || { over: new Map(), under: new Map() };
+      // One current price per sportsbook prevents duplicate feed rows from overweighting a book.
+      market[side].set(record.bookmaker_key, {
+        bookmaker: record.bookmaker_title || record.bookmaker_key,
+        probability,
+      });
+      markets.set(key, market);
+    });
+
+    markets.forEach((market, key) => {
+      const over = [...market.over.values()];
+      const under = [...market.under.values()];
+      if (over.length < 2 || under.length < 2) return;
+
+      const overProbability = over.reduce((sum, row) => sum + row.probability, 0) / over.length;
+      const underProbability = under.reduce((sum, row) => sum + row.probability, 0) / under.length;
+      const totalProbability = overProbability + underProbability;
+      if (!totalProbability) return;
+
+      const noVigOver = overProbability / totalProbability;
+      const noVigUnder = underProbability / totalProbability;
+      const side = noVigOver >= noVigUnder ? 'over' : 'under';
+      const probability = side === 'over' ? noVigOver : noVigUnder;
+      const bookmakers = [...new Set([...over, ...under].map(row => row.bookmaker))].sort();
+
+      map.set(key, {
+        sharp_score: Number(Math.max((probability - 0.5) * 100, 0).toFixed(1)),
+        sharp_odds: impliedProbabilityToAmerican(probability),
+        sharp_side: side,
+        sharp_reference_line: Number(key.split('|').at(-1)),
+        sharp_line_delta: 0,
+        sharp: {
+          available: true,
+          source: 'sportsbook_consensus',
+          side,
+          score: Number(Math.max((probability - 0.5) * 100, 0).toFixed(1)),
+          edge_pct: Number(Math.max((probability - 0.5) * 100, 0).toFixed(2)),
+          odds_american: impliedProbabilityToAmerican(probability),
+          books_used: bookmakers.length,
+          bookmakers,
+        },
+      });
     });
   } catch {
-    // Optional artifact: keep empty map when file is absent or malformed.
+    // Optional artifact: keep empty map when the sportsbook file is absent or malformed.
   }
 
   sharpOddsCache.map = map;
