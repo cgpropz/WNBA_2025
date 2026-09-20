@@ -651,18 +651,46 @@ function clampDvpFactor(factor) {
   return Math.min(DVP_FACTOR_MAX, Math.max(DVP_FACTOR_MIN, factor));
 }
 
+// Convert DVP rank (1-15 scale) to projection multiplier (0.85-1.15 scale)
+function dvpRankToMultiplier(dvpRank) {
+  if (!dvpRank || dvpRank < 1) return 1;
+  // Map: 1 → 0.85, 8 → 1.0, 15 → 1.15
+  return DVP_FACTOR_MIN + (dvpRank - 1) / 14 * (DVP_FACTOR_MAX - DVP_FACTOR_MIN);
+}
+
 async function buildDvpMap(position) {
   const rows = await readCsv(DVP_FILES[position] || '');
   const oppPts = rows.map(r => parseFloat(r['OPP PTS'] || 0)).filter(v => v > 0);
   const avg = oppPts.length ? oppPts.reduce((s, v) => s + v, 0) / oppPts.length : 1;
+
+  // Sort teams by OPP PTS (descending = easiest first).
+  const sortedRows = [...rows].sort((a, b) => {
+    const aPts = parseFloat(a['OPP PTS'] || 0);
+    const bPts = parseFloat(b['OPP PTS'] || 0);
+    return bPts - aPts;
+  });
+
   const map = {};
-  rows.forEach(r => {
+  const rankMap = {};
+  sortedRows.forEach((r, index) => {
     const team = normalizeTeamAbbr(r.TEAM || r.Team);
     if (!team) return;
-    const raw = avg > 0 ? parseFloat(r['OPP PTS'] || 0) / avg : 1;
-    map[team] = clampDvpFactor(raw);
+
+    // Rank from n (easiest) down to 1 (toughest).
+    const numTeams = sortedRows.length;
+    const rank = numTeams - index;
+
+    // Map rank to 1-15 scale: 1 = red (tough), ~8 = neutral, 15 = green (easy).
+    // This preserves the full scale if fewer than 15 teams have DVP data.
+    const dvpFactor = numTeams > 1
+      ? 1 + (rank - 1) * (14 / (numTeams - 1))
+      : 8;
+
+    map[team] = parseFloat(dvpFactor.toFixed(4));
+    rankMap[team] = rank;
   });
-  return { map, avg, rows };
+
+  return { map, rankMap, avg, rows };
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -761,7 +789,7 @@ app.get('/api/dvp/:position', async (req, res) => {
     if (!DVP_FILES[pos]) {
       return res.status(400).json({ error: 'Invalid position. Use guard, forward, or center.' });
     }
-    const { map, avg, rows } = await buildDvpMap(pos);
+    const { map, rankMap, avg, rows } = await buildDvpMap(pos);
     const teams = rows.map(r => {
       const team = normalizeTeamAbbr(r.TEAM || r.Team);
       return {
@@ -771,7 +799,8 @@ app.get('/api/dvp/:position', async (req, res) => {
         oppPts:    parseFloat(r['OPP PTS'] || 0),
         oppReb:    parseFloat(r['OPP REB'] || 0),
         oppAst:    parseFloat(r['OPP AST'] || 0),
-        dvpFactor: parseFloat((map[team] || 1).toFixed(4)),
+        rank:      rankMap[team] || 0,
+        dvpFactor: rankMap[team] || 7,
       };
     }).sort((a, b) => b.dvpFactor - a.dvpFactor);
 
@@ -798,6 +827,7 @@ app.get('/api/projections/v2', async (req, res) => {
     ]);
 
     const dvpMaps = { Guard: gDvp.map, Forward: fDvp.map, Center: cDvp.map };
+    const dvpRankMaps = { Guard: gDvp.rankMap, Forward: fDvp.rankMap, Center: cDvp.rankMap };
     const STATS = BASE_PROJECTION_STATS;
 
     const projections = bio.map(p => {
@@ -824,7 +854,7 @@ app.get('/api/projections/v2', async (req, res) => {
           position,  image: playerImages[name] || null,
           dvpOpponent,
           spread: spreads[team] ?? null,
-          gp: 0, avgMins: 0, dvpFactor: 1,
+          gp: 0, avgMins: 0, dvpFactor: 7,
           projPts: 0, projReb: 0, projAst: 0, projFg3m: 0,
           l3ppm: {}, l7ppm: {}, l15ppm: {},
           recentGames: [],
@@ -848,9 +878,12 @@ app.get('/api/projections/v2', async (req, res) => {
 
       const last10    = games.slice(0, 10);
       const avgMins   = last10.reduce((s, g) => s + g.min, 0) / last10.length;
-      const dvpFactor = dvpOpponent ? (dvpMaps[position]?.[dvpOpponent] ?? 1) : 1;
+      const dvpRank = dvpOpponent ? (dvpRankMaps[position]?.[dvpOpponent] ?? 7) : 7;
+      const dvpMultiplier = dvpOpponent
+        ? dvpRankToMultiplier(dvpMaps[position]?.[dvpOpponent] ?? 8)
+        : 1;
 
-      const bundle = buildProjectionBundle(games, avgMins, dvpFactor);
+      const bundle = buildProjectionBundle(games, avgMins, dvpMultiplier);
       const rateForLabel = label => {
         const line = standardLineForStat(label);
         const proj = projectionByStatLabel(label, bundle);
@@ -867,7 +900,7 @@ app.get('/api/projections/v2', async (req, res) => {
         avgMins:   parseFloat(avgMins.toFixed(1)),
         dvpOpponent,
         spread: spreads[team] ?? null,
-        dvpFactor: parseFloat(dvpFactor.toFixed(3)),
+        dvpFactor: parseFloat(dvpRank.toFixed(3)),
         projPts:   bundle.base.pts,
         projReb:   bundle.base.reb,
         projAst:   bundle.base.ast,
@@ -1075,8 +1108,10 @@ app.get('/api/edge', async (req, res) => {
 
         // projection (weighted PPM × mins × DVP)
         const dvpOpponent = normalizeTeamAbbr(opponent);
-        const dvpFactor   = dvpOpponent ? (dvpMaps[position]?.[dvpOpponent] ?? 1) : 1;
-        const bundle = buildProjectionBundle(games, avgMins, dvpFactor);
+        const dvpMultiplier = dvpOpponent
+          ? dvpRankToMultiplier(dvpMaps[position]?.[dvpOpponent] ?? 8)
+          : 1;
+        const bundle = buildProjectionBundle(games, avgMins, dvpMultiplier);
         const proj   = projectionByStatLabel(statLabel, bundle);
         if (proj == null) continue;
         const rating = line > 0 ? parseFloat(((proj / line) * 50).toFixed(1)) : null;

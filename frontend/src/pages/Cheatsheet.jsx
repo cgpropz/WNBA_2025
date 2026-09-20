@@ -1,12 +1,12 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { useApi } from '../hooks/useApi'
-import { fmt1, ratingColor, teamColor } from '../utils/formatters'
+import { fmtDvpRank, fmt1, ratingColor, teamColor } from '../utils/formatters'
 
 const TOP_LIMIT = 10
 const MIN_MINUTES = 28
 const MIN_L10 = 60
-const MIN_DVP = 1
+const MIN_DVP = 6  // On 1-15 scale: 6+ is neutral/favorable (toughest is 1, easiest is 15)
 
 function playerKey(name) {
   return String(name || '').trim().toLowerCase().replace(/[^a-z0-9]/g, '')
@@ -118,7 +118,7 @@ export default function Cheatsheet() {
         <Rule>OVER only</Rule>
         <Rule>MIN {MIN_MINUTES}+</Rule>
         <Rule>L10 {MIN_L10}%+</Rule>
-        <Rule>DVP {MIN_DVP.toFixed(2)}x+</Rule>
+        <Rule>DVP {MIN_DVP}+</Rule>
         <span style={{ color: '#4b5563', fontSize: 11, alignSelf: 'center', marginLeft: 3 }}>Rating resolves the final order.</span>
       </section>
 
@@ -175,7 +175,7 @@ export default function Cheatsheet() {
                     <Metric label="Rating" value={fmt1(rating)} passes accent={ratingColor(rating)} />
                     <Metric label="Avg MIN" value={fmt1(minutes)} passes={minutes >= MIN_MINUTES} />
                     <Metric label="L10" value={`${Math.round(l10)}%`} passes={l10 >= MIN_L10} />
-                    <Metric label="DVP" value={`${fmt1(dvp)}x`} passes={dvp >= MIN_DVP} />
+                    <Metric label="DVP" value={fmtDvpRank(dvp)} passes={dvp >= MIN_DVP} />
                   </div>
                   <div style={{ color: '#6b7280', fontSize: 11, textAlign: 'right', whiteSpace: 'nowrap' }}>
                     {prop.spread == null ? 'Spread —' : `Spread ${Number(prop.spread) > 0 ? '+' : ''}${fmt1(prop.spread)}`}
